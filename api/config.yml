@@ -7,5 +7,6 @@ compute-resource:
   jobs:
     scheme: slurm
     location: gti.labs.vu.nl
-    cwl-runner: $CERISE_API_FILES/cerise/cwltiny.py
+    cwl-runner: $CERISE_API_FILES/mdstudio/util/wrap_cwltiny.sh
     slots-per-node: 4
+    queue-name: gpu
