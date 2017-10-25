@@ -1,0 +1,11 @@
+compute-resource:
+  files:
+    scheme: sftp
+    location: gti.labs.vu.nl
+    path: /scistor/gt/$CERISE_USERNAME/.cerise
+
+  jobs:
+    scheme: slurm
+    location: gti.labs.vu.nl
+    cwl-runner: $CERISE_API_FILES/cerise/cwltiny.py
+    slots-per-node: 4
