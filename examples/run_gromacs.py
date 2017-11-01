@@ -26,13 +26,16 @@ job.set_input('sim_time', 0.001)
 job.run()
 
 while job.is_running():
-    time.sleep(10)
+    time.sleep(1)
 
 if job.state == 'Success':
     job.outputs['trajectory'].save_as('CYP19A1vs_BHC89.trr')
 else:
     print('There was an error: ' + job.state)
     print(job.log)
+
+for key in job.outputs:
+    job.outputs[key].save_as(key)
 
 # Clean up the job and the service
 srv.destroy_job(job)
