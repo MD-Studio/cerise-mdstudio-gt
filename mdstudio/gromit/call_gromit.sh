@@ -16,6 +16,8 @@ module load gromacs/2016.3
 GMXRC_FILE="/cm/shared/apps/gromacs-2016.3/bin/GMXRC"
 GROMIT="$CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/gromit/gromit_mpi.sh"
 
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+
 . $GMXRC_FILE
-$GROMIT -gmxrc $GMXRC_FILE -vsite -np 8 -f $PROTEIN_PDB -top $PROTEIN_TOP -l $LIGAND_PDB,$LIGAND_TOP -ff $FORCE_FIELD -time $SIM_TIME
+$GROMIT -gmxrc $GMXRC_FILE -vsite -np 4 -f $PROTEIN_PDB -top $PROTEIN_TOP -l $LIGAND_PDB,$LIGAND_TOP -ff $FORCE_FIELD -time $SIM_TIME
 
