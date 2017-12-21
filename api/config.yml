@@ -1,12 +1,14 @@
 compute-resource:
+  refresh: 10
   files:
-    scheme: sftp
+    protocol: sftp
     location: gti.labs.vu.nl
     path: /scistor/gt/$CERISE_USERNAME/.cerise
 
   jobs:
     scheme: slurm
     location: gti.labs.vu.nl
-    cwl-runner: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/util/wrap_cwltiny.sh
+   # cwl-runner: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/util/wrap_cwltiny.sh
+    cwl-runner: $CERISE_API_FILES/cerise/cwltiny.py
     slots-per-node: 4
     queue-name: gpu

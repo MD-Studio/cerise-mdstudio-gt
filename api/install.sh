@@ -13,6 +13,22 @@ else
     git checkout develop
 fi
 
+# Download getEnergies script
+if [ ! -f "$CERISE_API_FILES/mdstudio/energies/getEnergies.py" ] ; then
+    SCRIPT="https://raw.githubusercontent.com/MD-Studio/MDStudio/prototype/components/lie_md/lie_md/scripts/getEnergies.py"
+    wget $SCRIPT -P "$CERISE_API_FILES/mdstudio/bin"
+fi
+
+# install python dependencies
+if [ ! -d "$CERISE_API_FILES/miniconda" ] ; then
+    wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh
+    bash miniconda.sh -b -p $CERISE_API_FILES/miniconda
+    conda config --set always_yes yes --set changeps1 no --set auto_update_conda False
+    source $CERISE_API_FILES/miniconda/bin/activate root
+    conda clean --index-cache
+    pip install panedr
+fi
+
 # GT doesn't have SLURM available by default!
 # Since Xenon won't do 'module load slurm' every time it starts,
 # we add it to the user's .bashrc here. Not ideal, but it's not

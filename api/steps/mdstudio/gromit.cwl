@@ -15,32 +15,24 @@ inputs:
     type: File
     inputBinding:
        position: 2
-  protein_itp:
-    type: File
-    inputBinding:
-      position: 3
   ligand_pdb:
     type: File
     inputBinding:
-      position: 4
+      position: 3
   ligand_top:
     type: File
     inputBinding:
-      position: 5
-  ligand_itp:
-    type: File
-    inputBinding:
-      position: 6
+      position: 4
   force_field:
     type: string
     default: gromos
     inputBinding:
-      position: 7
+      position: 5
   sim_time:
     type: double
     default: 0.0001
     inputBinding:
-      position: 8
+      position: 6
 
 outputs:
   gromitout:
@@ -79,3 +71,18 @@ outputs:
   trajectory:
     type: File
     outputBinding: { glob: "*-MD.part0001.trr" }
+  energy:
+    type: File
+    outputBinding: { glob: "*-MD.part*.edr" }
+  gro:
+    type: File
+    outputBinding: { glob: "*-sol.gro" }
+  ndx:
+    type: File
+    outputBinding: { glob: "*-sol.ndx" }
+  top:
+    type: File
+    outputBinding: { glob: "*-sol.top" }
+  mdp:
+    type: File
+    outputBinding: { glob: md-prod-out.mdp}
