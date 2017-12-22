@@ -6,9 +6,9 @@ compute-resource:
     path: /scistor/gt/$CERISE_USERNAME/.cerise
 
   jobs:
-    scheme: slurm
+    protocol: ssh
+    scheduler: slurm
     location: gti.labs.vu.nl
-   # cwl-runner: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/util/wrap_cwltiny.sh
-    cwl-runner: $CERISE_API_FILES/cerise/cwltiny.py
+   cwl-runner: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/util/wrap_cwltiny.sh
     slots-per-node: 4
     queue-name: gpu
