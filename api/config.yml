@@ -9,6 +9,6 @@ compute-resource:
     protocol: ssh
     location: gti.labs.vu.nl
     scheduler: slurm
-   cwl-runner: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/util/wrap_cwltiny.sh
+    cwl-runner: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/util/wrap_cwltiny.sh
     slots-per-node: 4
     queue-name: gpu
