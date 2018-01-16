@@ -597,11 +597,11 @@ GMXVERSION=$(mdrun -h 2>&1 | sed -n '/^.*VERSION \([^ ]*\).*$/{s//\1/p;q;}')
 # The original commands are aliased, but there is no guarantee they will always remain
 [[ -z $GMXVERSION ]] && GMXVERSION=$(gmx -h 2>&1 | sed -n '/^.*VERSION \([^ ]*\).*$/{s//\1/p;q;}')
 # Version 2016 uses lower case "version", which is potentially ambiguous, so match carefully
-[[ -z $GMXVERSION ]] && GMXVERSION=$(gmx_mpi -h 2>&1 | sed -n '/^GROMACS:.*gmx_mpi, version \([^ ]*\).*$/{s//\1/p;q;}')
+[[ -z $GMXVERSION ]] && GMXVERSION=$(gmx -h 2>&1 | sed -n '/^GROMACS:.*gmx, version \([^ ]*\).*$/{s//\1/p;q;}')
 ifs=$IFS; IFS="."; GMXVERSION=($GMXVERSION); IFS=$ifs
 
 # Set the directory for binaries
-[[ $GMXVERSION -gt 4 ]] && GMXBIN=$(which gmx_mpi) || GMXBIN=$(which mdrun)
+[[ $GMXVERSION -gt 4 ]] && GMXBIN=$(which gmx) || GMXBIN=$(which mdrun)
 # Extract the directory
 GMXBIN=${GMXBIN%/*}
 # Set the directory to SCRIPTDIR if GMXBIN is empty 
@@ -620,7 +620,7 @@ GMXBIN=${GMXBIN:-$SCRIPTDIR}
 # In some cases, 'gromacs' is part of $GMXDATA
 if [[ $GMXVERSION -gt 4 ]]
 then
-    GMX="$GMXBIN/gmx_mpi " 
+    GMX="$GMXBIN/gmx " 
     GMXLIB=
 else
     GMX=$GMXBIN/
@@ -2387,7 +2387,7 @@ Replacing box with a rhombic dodecahedron of radius 3.
 __WARNING__
 
 	box='   3.00000   3.00000   2.12132   0.00000   0.00000   0.00000   0.00000   1.50000   1.50000'
-	awk 'NR==2{X=$1+2} NR==X{print "'$box'"; exit} 1' $base-pbc.gro >tmp.gro
+	awk -vbox="$box" 'NR==2{X=$1+3} NR==X{print box; exit} 1' $base-pbc.gro > tmp.gro
 	mv tmp.gro $base-pbc.gro
 	
     fi
@@ -2489,9 +2489,8 @@ then
     ## 1. Solvation
 
     # a. Basic stuff
-    SolFile=${SolFile:-$SolModel}
-    [[ $GMXVERSION -gt 4 ]] && SOLVATE="$GMXBIN/gmx_mpi solvate" || SOLVATE=$GMXBIN/genbox
-    SOLVATE="$SOLVATE -cp $GRO -cs $SolFile -o $base-sol-b4ions.gro"
+    [[ $GMXVERSION -gt 4 ]] && SOLVATE="$GMXBIN/gmx solvate" || SOLVATE=$GMXBIN/genbox
+    SOLVATE="$SOLVATE -cp $GRO -cs -o $base-sol-b4ions.gro"
 
     # b. Add program specific options from command line
     SOLVATE="$SOLVATE $(program_options genbox)"
@@ -2586,7 +2585,7 @@ then
 	then
 	    printf "%5d %5d %5d %5d %5d\n" $(SEQ ${Ligenv[@]}) | sed $'s/ 0//g;1s/^/[ check ]\\\n/' > charge.ndx
 	    NDX="-n charge.ndx"
-	    [[ $GMXVERSION -gt 4 ]] && TPRCONV="$GMXBIN/gmx_mpi tpr-convert" || TPRCONV="$GMXBIN/tpbconv"
+	    [[ $GMXVERSION -gt 4 ]] && TPRCONV="$GMXBIN/gmx tpr-convert" || TPRCONV="$GMXBIN/tpbconv"
 	    $TPRCONV -s $base-sol-b4ions.tpr -o $base-sol-b4ions-noligand.tpr -n charge.ndx >/dev/null 2>&1
             NCHARGE=$(getCharge $base-sol-b4ions-noligand.tpr)
 	    trash charge.ndx $base-sol-b4ions-noligand.tpr
@@ -3164,7 +3163,7 @@ then
 
     for edr in *-MD.part*.edr 
     do
-        [[ $GMXVERSION -gt 4 ]] && ENE="$GMXBIN/gmx_mpi energy" || ENE=$GMXBIN/g_energy
+        [[ $GMXVERSION -gt 4 ]] && ENE="$GMXBIN/gmx energy" || ENE=$GMXBIN/g_energy
 	echo $terms | $ENE -f $edr -o ${edr%.edr}.xvg 2>/dev/null | sed '/^Energy/,/^ *$/{/^ *$/q}' > ${edr%.edr}.lie
     done
 fi

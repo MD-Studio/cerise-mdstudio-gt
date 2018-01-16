@@ -1,39 +1,87 @@
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/gromit/call_gromit.sh
+baseCommand: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-das5/mdstudio/gromit/call_gromit.sh
 arguments: ["$CERISE_API_FILES"]
 stdout: gromit.out
 stderr: gromit.err
 
 inputs:
-  protein_pdb:
-    type: File
-    inputBinding:
-       position: 1
-  protein_top:
-    type: File
-    inputBinding:
-       position: 2
   ligand_pdb:
     type: File
     inputBinding:
-      position: 3
+      position: 1
   ligand_top:
     type: File
     inputBinding:
-      position: 4
-  force_field:
+      position: 2
+  protein_pdb:
+    type: File?
+    inputBinding:
+       position: 3
+       prefix: -f
+  protein_top:
+    type: File
+    inputBinding:
+       position: 4
+       prefix: -top
+  forcefield:
     type: string
-    default: gromos
     inputBinding:
       position: 5
-  sim_time:
+      prefix: -ff
+  periodic_distance:
     type: double
-    default: 0.0001
     inputBinding:
       position: 6
-
+      prefix: -d
+  pressure:
+    type: double
+    inputBinding:
+      position: 7
+      prefix: -p
+  prfc:
+    type: int[]
+    inputBinding:
+      position: 8
+      prefix: -prfc
+      itemSeparator: ","
+  ptau:
+    type: double
+    inputBinding:
+      position: 9
+      prefix: -ptau
+  resolution:
+    type: double
+    inputBinding:
+      position: 10
+      prefix: -at
+  salinity:
+    type: double
+    inputBinding:
+      position: 11
+      prefix: -conc
+  sim_time:
+    type: double
+    inputBinding:
+      position: 12
+      prefix: -time
+  solvent:
+    type: string
+    inputBinding:
+      position: 13
+      prefix: -solvent
+  temperature:
+    type: int[]
+    inputBinding:
+      position: 14
+      itemSeparator: ","
+      prefix: -t
+  ttau:
+    type: double
+    inputBinding:
+      position: 15
+      prefix: -ttau
 outputs:
   gromitout:
     type: File
