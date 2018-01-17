@@ -25,3 +25,17 @@ if [ ! -d "$CERISE_API_FILES/miniconda" ] ; then
     conda clean --index-cache
     pip install panedr
 fi
+
+# GT doesn't have SLURM available by default!
+# Since Xenon won't do 'module load slurm' every time it starts,
+# we add it to the user's .bashrc here. Not ideal, but it's not
+# unprecedented either for installers to modify your .bashrc.
+if ! grep -q 'cerise-mdstudio-gt' ~/.bashrc ; then
+    echo >>~/.bashrc
+    echo '# Added by cerise-mdstudio-gt, sorry!' >>~/.bashrc
+    echo 'if [ "a$MODULESHOME" == "a" ] ; then' >>~/.bashrc
+    echo '    . /etc/profile.d/modules.sh' >>~/.bashrc
+    echo 'fi' >>~/.bashrc
+    echo 'module load slurm' >>~/.bashrc
+    echo '# End cerise-mdstudio-gt additions' >>~/.bashrc
+fi

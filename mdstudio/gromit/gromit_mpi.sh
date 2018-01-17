@@ -595,13 +595,13 @@ echo Gromacs RC file: $GMXRC
 GMXVERSION=$(mdrun -h 2>&1 | sed -n '/^.*VERSION \([^ ]*\).*$/{s//\1/p;q;}')
 # From version 5.0.x on, the commands are gathered in one 'gmx' program
 # The original commands are aliased, but there is no guarantee they will always remain
-[[ -z $GMXVERSION ]] && GMXVERSION=$(gmx -h 2>&1 | sed -n '/^.*VERSION \([^ ]*\).*$/{s//\1/p;q;}')
+[[ -z $GMXVERSION ]] && GMXVERSION=$(gmx_mpi -h 2>&1 | sed -n '/^.*VERSION \([^ ]*\).*$/{s//\1/p;q;}')
 # Version 2016 uses lower case "version", which is potentially ambiguous, so match carefully
-[[ -z $GMXVERSION ]] && GMXVERSION=$(gmx -h 2>&1 | sed -n '/^GROMACS:.*gmx, version \([^ ]*\).*$/{s//\1/p;q;}')
+[[ -z $GMXVERSION ]] && GMXVERSION=$(gmx_mpi -h 2>&1 | sed -n '/^GROMACS:.*gmx, version \([^ ]*\).*$/{s//\1/p;q;}')
 ifs=$IFS; IFS="."; GMXVERSION=($GMXVERSION); IFS=$ifs
 
 # Set the directory for binaries
-[[ $GMXVERSION -gt 4 ]] && GMXBIN=$(which gmx) || GMXBIN=$(which mdrun)
+[[ $GMXVERSION -gt 4 ]] && GMXBIN=$(which gmx_mpi) || GMXBIN=$(which mdrun)
 # Extract the directory
 GMXBIN=${GMXBIN%/*}
 # Set the directory to SCRIPTDIR if GMXBIN is empty 
@@ -620,7 +620,7 @@ GMXBIN=${GMXBIN:-$SCRIPTDIR}
 # In some cases, 'gromacs' is part of $GMXDATA
 if [[ $GMXVERSION -gt 4 ]]
 then
-    GMX="$GMXBIN/gmx " 
+    GMX="$GMXBIN/gmx_mpi " 
     GMXLIB=
 else
     GMX=$GMXBIN/
@@ -2489,7 +2489,7 @@ then
     ## 1. Solvation
 
     # a. Basic stuff
-    [[ $GMXVERSION -gt 4 ]] && SOLVATE="$GMXBIN/gmx solvate" || SOLVATE=$GMXBIN/genbox
+    [[ $GMXVERSION -gt 4 ]] && SOLVATE="$GMXBIN/gmx_mpi solvate" || SOLVATE=$GMXBIN/genbox
     SOLVATE="$SOLVATE -cp $GRO -cs -o $base-sol-b4ions.gro"
 
     # b. Add program specific options from command line
@@ -3163,7 +3163,7 @@ then
 
     for edr in *-MD.part*.edr 
     do
-        [[ $GMXVERSION -gt 4 ]] && ENE="$GMXBIN/gmx energy" || ENE=$GMXBIN/g_energy
+        [[ $GMXVERSION -gt 4 ]] && ENE="$GMXBIN/gmx_mpi energy" || ENE=$GMXBIN/g_energy
 	echo $terms | $ENE -f $edr -o ${edr%.edr}.xvg 2>/dev/null | sed '/^Energy/,/^ *$/{/^ *$/q}' > ${edr%.edr}.lie
     done
 fi
