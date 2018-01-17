@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-das5/mdstudio/gromit/call_gromit.sh
+baseCommand: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-gt/mdstudio/gromit/call_gromit.sh
 arguments: ["$CERISE_API_FILES"]
 stdout: gromit.out
 stderr: gromit.err
