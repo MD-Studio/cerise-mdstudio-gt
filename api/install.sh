@@ -3,29 +3,11 @@
 CERISE_API_FILES="$1"
 CERISE_DATA=cerise-mdstudio-share-data
 
-# Clone or pull the share data
-if [ -d "$CERISE_API_FILES/mdstudio/github/$CERISE_SPECIALIZATION" ] ; then
-    cd "$CERISE_API_FILES/mdstudio/github/$CERISE_SPECIALIZATION"
-    git pull
-else
-    mkdir -p "$CERISE_API_FILES/mdstudio/github"
-    cd "$CERISE_API_FILES/mdstudio/github"
-    git clone git://github.com/MD-Studio/cerise-mdstudio-share-data.git
-fi
-
-if [ ! -f "$CERISE_API_FILES/mdstudio/energies/getEnergies.py" ] ; then
-    SCRIPT="https://raw.githubusercontent.com/MD-Studio/MDStudio/master/components/lie_md/lie_md/scripts/getEnergies.py"
-    wget $SCRIPT -P "$CERISE_API_FILES/mdstudio/bin"
-fi
-
-if [ ! -d "$CERISE_API_FILES/miniconda" ] ; then
-    wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh
-    bash miniconda.sh -b -p $CERISE_API_FILES/miniconda
-    conda config --set always_yes yes --set changeps1 no --set auto_update_conda False
-    source $CERISE_API_FILES/miniconda/bin/activate root
-    conda clean --index-cache
-    pip install panedr
-fi
+# Install share data and miniconda
+SCRIPT="https://raw.githubusercontent.com/MD-Studio/cerise-mdstudio-share-data/master/scripts/install_share.sh"
+wget $SCRIPT -P "$CERISE_API_FILES/mdstudio/bin"
+chmod u+x "$CERISE_API_FILES/mdstudio/bin/install_share.sh"
+$CERISE_API_FILES/mdstudio/bin/install_share.sh $CERISE_API_FILES
 
 # GT doesn't have SLURM available by default!
 # Since Xenon won't do 'module load slurm' every time it starts,
