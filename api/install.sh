@@ -1,8 +1,9 @@
 #!/bin/bash
 
 CERISE_API_FILES="$1"
-CERISE_SPECIALIZATION=cerise-mdstudio-gt
+CERISE_DATA=cerise-mdstudio-share-data
 
+# Clone or pull the share data
 if [ -d "$CERISE_API_FILES/mdstudio/github/$CERISE_SPECIALIZATION" ] ; then
     cd "$CERISE_API_FILES/mdstudio/github/$CERISE_SPECIALIZATION"
     git pull
@@ -32,10 +33,20 @@ fi
 # unprecedented either for installers to modify your .bashrc.
 if ! grep -q 'cerise-mdstudio-gt' ~/.bashrc ; then
     echo >>~/.bashrc
-    echo '# Added by cerise-mdstudio-gt, sorry!' >>~/.bashrc
+    echo '# Added by cerise-mdstud, sorry!' >>~/.bashrc
     echo 'if [ "a$MODULESHOME" == "a" ] ; then' >>~/.bashrc
     echo '    . /etc/profile.d/modules.sh' >>~/.bashrc
     echo 'fi' >>~/.bashrc
     echo 'module load slurm' >>~/.bashrc
-    echo '# End cerise-mdstudio-gt additions' >>~/.bashrc
+fi
+
+# Define PATH to gromacs in DAS
+GMXRC_MDSTUDIO="/cm/shared/apps/gromacs-2016.3/bin/GMXRC.bash"
+
+# ADD ENV variable if it is not already there
+pred=$(grep -m 1 'GMXRC_MDSTUDIO' ~/.bashrc)
+if [[ -z $pred ]]; then
+    echo >>~/.bashrc
+    echo "export GMXRC_MDSTUDIO=$GMXRC_MDSTUDIO" >>~/.bashrc
+    echo "# End cerise-mdstudio additions" >>~/.bashrc    
 fi
