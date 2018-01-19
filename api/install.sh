@@ -10,7 +10,7 @@ if [ -d "$CERISE_API_FILES/mdstudio/github/$CERISE_SPECIALIZATION" ] ; then
 else
     mkdir -p "$CERISE_API_FILES/mdstudio/github"
     cd "$CERISE_API_FILES/mdstudio/github"
-    git clone https://github.com/MD-Studio/$CERISE_SPECIALIZATION.git
+    git clone git://github.com/MD-Studio/cerise-mdstudio-share-data.git
 fi
 
 if [ ! -f "$CERISE_API_FILES/mdstudio/energies/getEnergies.py" ] ; then
