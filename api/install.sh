@@ -22,7 +22,7 @@ if ! grep -q 'cerise-mdstudio-gt' ~/.bashrc ; then
     echo 'module load slurm' >>~/.bashrc
 fi
 
-# Define PATH to gromacs in DAS
+# Define PATH to gromacs in GTI cluster
 GMXRC_MDSTUDIO="/cm/shared/apps/gromacs-2016.3/bin/GMXRC.bash"
 
 # ADD ENV variable if it is not already there
