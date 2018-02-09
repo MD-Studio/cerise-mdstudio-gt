@@ -11,4 +11,3 @@ compute-resource:
     scheduler: slurm
     cwl-runner: $CERISE_API_FILES/mdstudio/github/cerise-mdstudio-share-data/scripts/wrap_cwltiny.sh
     slots-per-node: 4
-    queue-name: far
