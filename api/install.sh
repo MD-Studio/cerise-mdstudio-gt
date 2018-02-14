@@ -13,9 +13,9 @@ $CERISE_API_FILES/mdstudio/bin/install_share.sh $CERISE_API_FILES
 # Since Xenon won't do 'module load slurm' every time it starts,
 # we add it to the user's .bashrc here. Not ideal, but it's not
 # unprecedented either for installers to modify your .bashrc.
-if ! grep -q 'cerise-mdstudio-gt' ~/.bashrc ; then
+if ! grep -q 'cerise-mdstudio' ~/.bashrc ; then
     echo >>~/.bashrc
-    echo '# Added by cerise-mdstud, sorry!' >>~/.bashrc
+    echo '# Added by cerise-mdstudio, sorry!' >>~/.bashrc
     echo 'if [ "a$MODULESHOME" == "a" ] ; then' >>~/.bashrc
     echo '    . /etc/profile.d/modules.sh' >>~/.bashrc
     echo 'fi' >>~/.bashrc
