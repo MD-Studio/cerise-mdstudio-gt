@@ -1,4 +1,4 @@
-FROM mdstudio/cerise:develop
+FROM mdstudio/cerise:0.1.0
 MAINTAINER Felipe Zapata <f.zapata@esciencecenter.nl>
 
 RUN  apt-get update && apt-get install -y wget
