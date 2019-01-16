@@ -1,8 +1,5 @@
 
 # Load modules
-# GT doesn't have SLURM available by default!
-# Since Xenon won't do `module load slurm` every time it starts,
-# we add it here.
 . /etc/profile.d/modules.sh
 module load slurm gromacs/2016.3
 

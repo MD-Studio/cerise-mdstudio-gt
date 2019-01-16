@@ -1,20 +1,11 @@
-CERISE_API_FILES="${1}"
-
-# Install share data and miniconda
-INSTALL_SCRIPT="${CERISE_API_FILES}/mdstudio/bin/install_share.sh"
-
-if [ ! -f ${INSTALL_SCRIPT} ] ; then
-    # Download installation
-    SCRIPT="https://raw.githubusercontent.com/MD-Studio/cerise-mdstudio-share-data/master/scripts/install_share.sh"
-    wget ${SCRIPT} -P "${CERISE_API_FILES}/mdstudio/bin"
-    chmod u+x "${CERISE_API_FILES}/mdstudio/bin/install_share.sh"
-fi
-${INSTALL_SCRIPT} ${CERISE_API_FILES}
+# Run base install
+$CERISE_PROJECT_FILES/install_base.sh
 
 # GT doesn't have SLURM available by default!
-# Since Xenon won't do 'module load slurm' every time it starts,
+# Since Cerise doesn't have support for 'module load slurm' yet,
 # we add it to the user's .bashrc here. Not ideal, but it's not
 # unprecedented either for installers to modify your .bashrc.
+# And it will be fixed for Cerise 1.0.
 if ! grep -q 'cerise-mdstudio' ~/.bashrc ; then
     echo >>~/.bashrc
     echo '# Added by cerise-mdstudio, sorry!' >>~/.bashrc
